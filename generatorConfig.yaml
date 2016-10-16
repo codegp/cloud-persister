@@ -1,0 +1,20 @@
+outputPackage: cloudpersister
+receiver: CloudPersister
+generators:
+  - modelPackageName: models
+    modelsImportPath: github.com/codegp/cloud-persister/models
+    models:
+      - GameType
+      - User
+      - Project
+      - Game
+      - Map
+  - modelPackageName: types
+    modelsImportPath: github.com/codegp/game-object-types/types
+    models:
+      - BotType
+      - TerrainType
+      - AttackType
+      - MoveType
+      - ItemType
+outputDir: "./"

@@ -1,0 +1,13 @@
+package: github.com/codegp/cloud-persister
+import:
+- package: cloud.google.com/go
+  subpackages:
+  - datastore
+  - storage
+- package: github.com/codegp/env
+- package: github.com/codegp/game-object-types
+  subpackages:
+  - types
+- package: golang.org/x/net
+  subpackages:
+  - context

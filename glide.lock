@@ -1,0 +1,95 @@
+hash: ef07256b3e32f204d55f9cfeb0d997d3622208574ac4b3042107b14c5b9807b9
+updated: 2016-10-15T18:56:51.186289317-06:00
+imports:
+- name: cloud.google.com/go
+  version: 324a60ed5211861ba3ef5a71f502fa8dd2e0d02e
+  subpackages:
+  - datastore
+  - storage
+  - internal/optional
+  - compute/metadata
+  - internal
+- name: git.apache.org/thrift.git
+  version: af81cf0c6180cda4791e023a37ad134247fa7794
+  subpackages:
+  - lib/go/thrift
+- name: github.com/codegp/env
+  version: 336f55c547ee75bb1941c9e5bf4dda6586332224
+- name: github.com/codegp/game-object-types
+  version: f4be21842bbbce5f419ba44aada8778723e8205b
+  subpackages:
+  - types
+- name: github.com/golang/protobuf
+  version: 98fa357170587e470c5f27d3c3ea0947b71eb455
+  subpackages:
+  - proto
+  - ptypes/timestamp
+  - ptypes/wrappers
+  - ptypes/struct
+  - ptypes/any
+- name: golang.org/x/net
+  version: 8b4af36cd21a1f85a7484b49feb7c79363106d8e
+  subpackages:
+  - context
+  - http2
+  - trace
+  - context/ctxhttp
+  - http2/hpack
+  - idna
+  - lex/httplex
+  - internal/timeseries
+- name: golang.org/x/oauth2
+  version: 1e695b1c8febf17aad3bfa7bf0a819ef94b98ad5
+  subpackages:
+  - google
+  - internal
+  - jws
+  - jwt
+- name: google.golang.org/api
+  version: 45c1c8fbb52e06888fad4b269d9e1c280d638f42
+  subpackages:
+  - iterator
+  - option
+  - transport
+  - googleapi
+  - storage/v1
+  - internal
+  - googleapi/internal/uritemplates
+  - gensupport
+- name: google.golang.org/appengine
+  version: 5b8c3b819891014a2d12354528f7d046dd53c89e
+  subpackages:
+  - socket
+  - urlfetch
+  - internal
+  - internal/socket
+  - internal/urlfetch
+  - internal/app_identity
+  - internal/modules
+  - internal/base
+  - internal/datastore
+  - internal/log
+  - internal/remote_api
+- name: google.golang.org/genproto
+  version: 9359a8d303c45e3212571b77610f1cefb0c6f3eb
+  subpackages:
+  - googleapis/datastore/v1
+  - googleapis/type/latlng
+  - googleapis/api/serviceconfig
+  - googleapis/api/label
+  - googleapis/api/metric
+  - googleapis/api/monitoredres
+  - protobuf
+- name: google.golang.org/grpc
+  version: b0578483843681a8905bc4d77c593c5ce0741210
+  subpackages:
+  - codes
+  - metadata
+  - credentials
+  - credentials/oauth
+  - grpclog
+  - internal
+  - naming
+  - transport
+  - peer
+testImports: []

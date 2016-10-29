@@ -1,8 +1,8 @@
 hash: ef07256b3e32f204d55f9cfeb0d997d3622208574ac4b3042107b14c5b9807b9
-updated: 2016-10-15T18:56:51.186289317-06:00
+updated: 2016-10-29T16:47:39.900391835-06:00
 imports:
 - name: cloud.google.com/go
-  version: 324a60ed5211861ba3ef5a71f502fa8dd2e0d02e
+  version: 28994ff9b5baa92fe337dacaee126fcf80fefa3e
   subpackages:
   - datastore
   - storage
@@ -10,13 +10,13 @@ imports:
   - compute/metadata
   - internal
 - name: git.apache.org/thrift.git
-  version: af81cf0c6180cda4791e023a37ad134247fa7794
+  version: 59cb6661bcee265d39ad524154472ebe27760f1e
   subpackages:
   - lib/go/thrift
 - name: github.com/codegp/env
-  version: 336f55c547ee75bb1941c9e5bf4dda6586332224
+  version: 1af9748c81f32e1c4910c19fe703826b0c187f9d
 - name: github.com/codegp/game-object-types
-  version: f4be21842bbbce5f419ba44aada8778723e8205b
+  version: 2a3c7fd5f280683c6c4e56f04ddbe202c4ccdb6e
   subpackages:
   - types
 - name: github.com/golang/protobuf
@@ -27,8 +27,10 @@ imports:
   - ptypes/wrappers
   - ptypes/struct
   - ptypes/any
+- name: github.com/googleapis/gax-go
+  version: 4f7da601ca02aa546c5ef911a0b6595fdadf4e18
 - name: golang.org/x/net
-  version: 8b4af36cd21a1f85a7484b49feb7c79363106d8e
+  version: fca93ed71fff8fa71efeaf6501adc8921a6da7bc
   subpackages:
   - context
   - http2
@@ -39,14 +41,14 @@ imports:
   - lex/httplex
   - internal/timeseries
 - name: golang.org/x/oauth2
-  version: 1e695b1c8febf17aad3bfa7bf0a819ef94b98ad5
+  version: 25b4fb1468cb89700c7c060cb99f30581a61f5e3
   subpackages:
   - google
   - internal
   - jws
   - jwt
 - name: google.golang.org/api
-  version: 45c1c8fbb52e06888fad4b269d9e1c280d638f42
+  version: 037d03010933c9fa8e57559c1b7faeec971688d1
   subpackages:
   - iterator
   - option
@@ -57,7 +59,7 @@ imports:
   - googleapi/internal/uritemplates
   - gensupport
 - name: google.golang.org/appengine
-  version: 5b8c3b819891014a2d12354528f7d046dd53c89e
+  version: 46239ca616842c00f41b8cbc6bbf2bd6ffbfcdad
   subpackages:
   - socket
   - urlfetch
@@ -81,7 +83,7 @@ imports:
   - googleapis/api/monitoredres
   - protobuf
 - name: google.golang.org/grpc
-  version: b0578483843681a8905bc4d77c593c5ce0741210
+  version: 396f8ba2a6b9039070f4ff97561f5e408828fccd
   subpackages:
   - codes
   - metadata

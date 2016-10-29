@@ -3,16 +3,20 @@ package cloudpersister
 import (
 	"fmt"
 
+	"github.com/codegp/env"
+
 	"cloud.google.com/go/datastore"
 )
 
+// CloudPersister is an object that can read/update cloud storage and datastore models
 type CloudPersister struct {
-	ds *DSClient
+	ds *datastore.Client
 	fp FilePersister
 }
 
+// NewCloudPersister returns an instance of CloudPersister
 func NewCloudPersister() (*CloudPersister, error) {
-	ds, err := NewDatastoreClient()
+	ds, err := configureDatastore()
 	if err != nil {
 		return nil, err
 	}
@@ -28,8 +32,9 @@ func NewCloudPersister() (*CloudPersister, error) {
 	}, nil
 }
 
+// DatastoreClient returns the cloud persisters instance of "cloud.google.com/go/datastore".Client
 func (c *CloudPersister) DatastoreClient() *datastore.Client {
-	return c.ds.client
+	return c.ds
 }
 
 func (c *CloudPersister) WriteMap(id int64, content []byte) error {
@@ -89,5 +94,15 @@ func (c *CloudPersister) WriteDocs(fname string, content []byte) error {
 
 func (c *CloudPersister) ReadDocs(fname string) ([]byte, error) {
 	name := fmt.Sprintf("%s.html", fname)
+	return c.fp.Read(name)
+}
+
+func (c *CloudPersister) WriteGenCode(gameTypeID int64, lang env.Lang, content []byte) error {
+	name := fmt.Sprintf("%d-%s.zip", gameTypeID, lang)
+	return c.fp.Write(name, content, "application/zip", true)
+}
+
+func (c *CloudPersister) ReadGenCode(gameTypeID int64, lang env.Lang) ([]byte, error) {
+	name := fmt.Sprintf("%d-%s.zip", gameTypeID, lang)
 	return c.fp.Read(name)
 }

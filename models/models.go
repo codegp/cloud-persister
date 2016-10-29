@@ -21,8 +21,10 @@ type GameType struct {
 
 // User -
 type User struct {
-	ID         int64   `datastore:"-"`
-	ProjectIDs []int64 `json:"projectIDs" datastore:",noindex"`
+	ID              int64   `datastore:"-"`
+	ProjectIDs      []int64 `json:"projectIDs" datastore:",noindex"`
+	GoogleProfileID string  `json:"googleProfileID"`
+	GithubProfileID int     `json:"githubProfileID"`
 }
 
 // Project -

@@ -8,26 +8,6 @@ import (
 	"golang.org/x/net/context"
 )
 
-// DSClient is a struct that implements methods performing datastore ops
-// on codegp specific models
-type DSClient struct {
-	client *datastore.Client
-}
-
-// NewDatastoreClient is a public function to return a new instance
-// of a DSClient. returns an error if we fail to connecto to the cloud
-// datastore for any reason
-func NewDatastoreClient() (*DSClient, error) {
-	client, err := configureDatastore()
-	if err != nil {
-		return nil, err
-	}
-
-	return &DSClient{
-		client: client,
-	}, nil
-}
-
 func getProjectID() (string, error) {
 	projID := env.GCloudProjectID()
 	if projID == "" {

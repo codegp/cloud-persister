@@ -21,6 +21,27 @@ func (c *CloudPersister) GetUser(id int64) (*models.User, error) {
 	return User, nil
 }
 
+// GetMultiUser retrieves a list of Users by their ID.
+func (c *CloudPersister) GetMultiUser(ids []int64) ([]*models.User, error) {
+	if len(ids) == 0 {
+		return []*models.User{}, nil
+	}
+	ctx := context.Background()
+	ks := make([]*datastore.Key, len(ids))
+	Users := make([]*models.User, len(ids))
+	for i, id := range ids {
+		ks[i] = datastore.NewKey(ctx, "User", "", id, nil)
+		Users[i] = &models.User{}
+	}
+	if err := c.DatastoreClient().GetMulti(ctx, ks, Users); err != nil {
+		return nil, fmt.Errorf("datastoredb: could not get Users: %v", err)
+	}
+	for i, id := range ids {
+		Users[i].ID = id
+	}
+	return Users, nil
+}
+
 // AddUser saves a given User, assigning it a new ID.
 func (c *CloudPersister) AddUser(b *models.User) (*models.User, error) {
 	ctx := context.Background()

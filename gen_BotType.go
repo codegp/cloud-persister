@@ -21,6 +21,27 @@ func (c *CloudPersister) GetBotType(id int64) (*types.BotType, error) {
 	return BotType, nil
 }
 
+// GetMultiBotType retrieves a list of BotTypes by their ID.
+func (c *CloudPersister) GetMultiBotType(ids []int64) ([]*types.BotType, error) {
+	if len(ids) == 0 {
+		return []*types.BotType{}, nil
+	}
+	ctx := context.Background()
+	ks := make([]*datastore.Key, len(ids))
+	BotTypes := make([]*types.BotType, len(ids))
+	for i, id := range ids {
+		ks[i] = datastore.NewKey(ctx, "BotType", "", id, nil)
+		BotTypes[i] = &types.BotType{}
+	}
+	if err := c.DatastoreClient().GetMulti(ctx, ks, BotTypes); err != nil {
+		return nil, fmt.Errorf("datastoredb: could not get BotTypes: %v", err)
+	}
+	for i, id := range ids {
+		BotTypes[i].ID = id
+	}
+	return BotTypes, nil
+}
+
 // AddBotType saves a given BotType, assigning it a new ID.
 func (c *CloudPersister) AddBotType(b *types.BotType) (*types.BotType, error) {
 	ctx := context.Background()

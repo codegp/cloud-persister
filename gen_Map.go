@@ -21,6 +21,27 @@ func (c *CloudPersister) GetMap(id int64) (*models.Map, error) {
 	return Map, nil
 }
 
+// GetMultiMap retrieves a list of Maps by their ID.
+func (c *CloudPersister) GetMultiMap(ids []int64) ([]*models.Map, error) {
+	if len(ids) == 0 {
+		return []*models.Map{}, nil
+	}
+	ctx := context.Background()
+	ks := make([]*datastore.Key, len(ids))
+	Maps := make([]*models.Map, len(ids))
+	for i, id := range ids {
+		ks[i] = datastore.NewKey(ctx, "Map", "", id, nil)
+		Maps[i] = &models.Map{}
+	}
+	if err := c.DatastoreClient().GetMulti(ctx, ks, Maps); err != nil {
+		return nil, fmt.Errorf("datastoredb: could not get Maps: %v", err)
+	}
+	for i, id := range ids {
+		Maps[i].ID = id
+	}
+	return Maps, nil
+}
+
 // AddMap saves a given Map, assigning it a new ID.
 func (c *CloudPersister) AddMap(b *models.Map) (*models.Map, error) {
 	ctx := context.Background()

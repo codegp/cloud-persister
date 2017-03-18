@@ -21,6 +21,27 @@ func (c *CloudPersister) GetAttackType(id int64) (*types.AttackType, error) {
 	return AttackType, nil
 }
 
+// GetMultiAttackType retrieves a list of AttackTypes by their ID.
+func (c *CloudPersister) GetMultiAttackType(ids []int64) ([]*types.AttackType, error) {
+	if len(ids) == 0 {
+		return []*types.AttackType{}, nil
+	}
+	ctx := context.Background()
+	ks := make([]*datastore.Key, len(ids))
+	AttackTypes := make([]*types.AttackType, len(ids))
+	for i, id := range ids {
+		ks[i] = datastore.NewKey(ctx, "AttackType", "", id, nil)
+		AttackTypes[i] = &types.AttackType{}
+	}
+	if err := c.DatastoreClient().GetMulti(ctx, ks, AttackTypes); err != nil {
+		return nil, fmt.Errorf("datastoredb: could not get AttackTypes: %v", err)
+	}
+	for i, id := range ids {
+		AttackTypes[i].ID = id
+	}
+	return AttackTypes, nil
+}
+
 // AddAttackType saves a given AttackType, assigning it a new ID.
 func (c *CloudPersister) AddAttackType(b *types.AttackType) (*types.AttackType, error) {
 	ctx := context.Background()

@@ -34,8 +34,9 @@ type Project struct {
 	Language   string   `json:"language" datastore:",noindex"`
 	GameTypeID int64    `json:"gameTypeID" datastore:",noindex"`
 	UserID     int64    `json:"userID" datastore:",noindex"`
-	FileNames  []string `json:"fileNames" datastore:",noindex"`
 	GameIDs    []int64  `json:"gameIDs" datastore:",noindex"`
+	FileNames  []string `json:"fileNames" datastore:",noindex"`
+	Directory  string   `json:"directory" datastore:",noindex"`
 }
 
 // Game -

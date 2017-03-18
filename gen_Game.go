@@ -21,6 +21,27 @@ func (c *CloudPersister) GetGame(id int64) (*models.Game, error) {
 	return Game, nil
 }
 
+// GetMultiGame retrieves a list of Games by their ID.
+func (c *CloudPersister) GetMultiGame(ids []int64) ([]*models.Game, error) {
+	if len(ids) == 0 {
+		return []*models.Game{}, nil
+	}
+	ctx := context.Background()
+	ks := make([]*datastore.Key, len(ids))
+	Games := make([]*models.Game, len(ids))
+	for i, id := range ids {
+		ks[i] = datastore.NewKey(ctx, "Game", "", id, nil)
+		Games[i] = &models.Game{}
+	}
+	if err := c.DatastoreClient().GetMulti(ctx, ks, Games); err != nil {
+		return nil, fmt.Errorf("datastoredb: could not get Games: %v", err)
+	}
+	for i, id := range ids {
+		Games[i].ID = id
+	}
+	return Games, nil
+}
+
 // AddGame saves a given Game, assigning it a new ID.
 func (c *CloudPersister) AddGame(b *models.Game) (*models.Game, error) {
 	ctx := context.Background()

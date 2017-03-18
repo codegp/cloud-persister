@@ -21,6 +21,27 @@ func (c *CloudPersister) GetTerrainType(id int64) (*types.TerrainType, error) {
 	return TerrainType, nil
 }
 
+// GetMultiTerrainType retrieves a list of TerrainTypes by their ID.
+func (c *CloudPersister) GetMultiTerrainType(ids []int64) ([]*types.TerrainType, error) {
+	if len(ids) == 0 {
+		return []*types.TerrainType{}, nil
+	}
+	ctx := context.Background()
+	ks := make([]*datastore.Key, len(ids))
+	TerrainTypes := make([]*types.TerrainType, len(ids))
+	for i, id := range ids {
+		ks[i] = datastore.NewKey(ctx, "TerrainType", "", id, nil)
+		TerrainTypes[i] = &types.TerrainType{}
+	}
+	if err := c.DatastoreClient().GetMulti(ctx, ks, TerrainTypes); err != nil {
+		return nil, fmt.Errorf("datastoredb: could not get TerrainTypes: %v", err)
+	}
+	for i, id := range ids {
+		TerrainTypes[i].ID = id
+	}
+	return TerrainTypes, nil
+}
+
 // AddTerrainType saves a given TerrainType, assigning it a new ID.
 func (c *CloudPersister) AddTerrainType(b *types.TerrainType) (*types.TerrainType, error) {
 	ctx := context.Background()

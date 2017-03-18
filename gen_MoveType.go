@@ -21,6 +21,27 @@ func (c *CloudPersister) GetMoveType(id int64) (*types.MoveType, error) {
 	return MoveType, nil
 }
 
+// GetMultiMoveType retrieves a list of MoveTypes by their ID.
+func (c *CloudPersister) GetMultiMoveType(ids []int64) ([]*types.MoveType, error) {
+	if len(ids) == 0 {
+		return []*types.MoveType{}, nil
+	}
+	ctx := context.Background()
+	ks := make([]*datastore.Key, len(ids))
+	MoveTypes := make([]*types.MoveType, len(ids))
+	for i, id := range ids {
+		ks[i] = datastore.NewKey(ctx, "MoveType", "", id, nil)
+		MoveTypes[i] = &types.MoveType{}
+	}
+	if err := c.DatastoreClient().GetMulti(ctx, ks, MoveTypes); err != nil {
+		return nil, fmt.Errorf("datastoredb: could not get MoveTypes: %v", err)
+	}
+	for i, id := range ids {
+		MoveTypes[i].ID = id
+	}
+	return MoveTypes, nil
+}
+
 // AddMoveType saves a given MoveType, assigning it a new ID.
 func (c *CloudPersister) AddMoveType(b *types.MoveType) (*types.MoveType, error) {
 	ctx := context.Background()

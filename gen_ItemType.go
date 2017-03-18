@@ -21,6 +21,27 @@ func (c *CloudPersister) GetItemType(id int64) (*types.ItemType, error) {
 	return ItemType, nil
 }
 
+// GetMultiItemType retrieves a list of ItemTypes by their ID.
+func (c *CloudPersister) GetMultiItemType(ids []int64) ([]*types.ItemType, error) {
+	if len(ids) == 0 {
+		return []*types.ItemType{}, nil
+	}
+	ctx := context.Background()
+	ks := make([]*datastore.Key, len(ids))
+	ItemTypes := make([]*types.ItemType, len(ids))
+	for i, id := range ids {
+		ks[i] = datastore.NewKey(ctx, "ItemType", "", id, nil)
+		ItemTypes[i] = &types.ItemType{}
+	}
+	if err := c.DatastoreClient().GetMulti(ctx, ks, ItemTypes); err != nil {
+		return nil, fmt.Errorf("datastoredb: could not get ItemTypes: %v", err)
+	}
+	for i, id := range ids {
+		ItemTypes[i].ID = id
+	}
+	return ItemTypes, nil
+}
+
 // AddItemType saves a given ItemType, assigning it a new ID.
 func (c *CloudPersister) AddItemType(b *types.ItemType) (*types.ItemType, error) {
 	ctx := context.Background()

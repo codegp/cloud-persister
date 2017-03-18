@@ -21,6 +21,27 @@ func (c *CloudPersister) GetProject(id int64) (*models.Project, error) {
 	return Project, nil
 }
 
+// GetMultiProject retrieves a list of Projects by their ID.
+func (c *CloudPersister) GetMultiProject(ids []int64) ([]*models.Project, error) {
+	if len(ids) == 0 {
+		return []*models.Project{}, nil
+	}
+	ctx := context.Background()
+	ks := make([]*datastore.Key, len(ids))
+	Projects := make([]*models.Project, len(ids))
+	for i, id := range ids {
+		ks[i] = datastore.NewKey(ctx, "Project", "", id, nil)
+		Projects[i] = &models.Project{}
+	}
+	if err := c.DatastoreClient().GetMulti(ctx, ks, Projects); err != nil {
+		return nil, fmt.Errorf("datastoredb: could not get Projects: %v", err)
+	}
+	for i, id := range ids {
+		Projects[i].ID = id
+	}
+	return Projects, nil
+}
+
 // AddProject saves a given Project, assigning it a new ID.
 func (c *CloudPersister) AddProject(b *models.Project) (*models.Project, error) {
 	ctx := context.Background()

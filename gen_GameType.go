@@ -21,6 +21,27 @@ func (c *CloudPersister) GetGameType(id int64) (*models.GameType, error) {
 	return GameType, nil
 }
 
+// GetMultiGameType retrieves a list of GameTypes by their ID.
+func (c *CloudPersister) GetMultiGameType(ids []int64) ([]*models.GameType, error) {
+	if len(ids) == 0 {
+		return []*models.GameType{}, nil
+	}
+	ctx := context.Background()
+	ks := make([]*datastore.Key, len(ids))
+	GameTypes := make([]*models.GameType, len(ids))
+	for i, id := range ids {
+		ks[i] = datastore.NewKey(ctx, "GameType", "", id, nil)
+		GameTypes[i] = &models.GameType{}
+	}
+	if err := c.DatastoreClient().GetMulti(ctx, ks, GameTypes); err != nil {
+		return nil, fmt.Errorf("datastoredb: could not get GameTypes: %v", err)
+	}
+	for i, id := range ids {
+		GameTypes[i].ID = id
+	}
+	return GameTypes, nil
+}
+
 // AddGameType saves a given GameType, assigning it a new ID.
 func (c *CloudPersister) AddGameType(b *models.GameType) (*models.GameType, error) {
 	ctx := context.Background()
